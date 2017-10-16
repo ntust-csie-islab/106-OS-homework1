@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="mobile-web-app-capable" content="yes">
     <title>
-        106 NTUST OS - HackMD
+        Chapter 4 Locking - HackMD
     </title>
     <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
     <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
@@ -35,36 +35,152 @@
 </head>
 
 <body>
-    <div id="doc" class="markdown-body container-fluid"><h1 id="106-ntust-os"><a class="anchor hidden-xs" href="#106-ntust-os" title="106-ntust-os"><span class="octicon octicon-link"></span></a>106 NTUST OS</h1><p>xv6 web site：<a href="https://pdos.csail.mit.edu/6.828/2017/" target="_blank">https://pdos.csail.mit.edu/6.828/2017/</a><br>
-xv6 source code：<a href="https://pdos.csail.mit.edu/6.828/2017/xv6/xv6-rev10.pdf" target="_blank">https://pdos.csail.mit.edu/6.828/2017/xv6/xv6-rev10.pdf</a><br>
-xv6 document：<a href="https://pdos.csail.mit.edu/6.828/2017/xv6/book-rev10.pdf" target="_blank">https://pdos.csail.mit.edu/6.828/2017/xv6/book-rev10.pdf</a><br>
-xv6 schedule：<a href="https://pdos.csail.mit.edu/6.828/2017/schedule.html" target="_blank">https://pdos.csail.mit.edu/6.828/2017/schedule.html</a></p><h2 id="ubuntu環境"><a class="anchor hidden-xs" href="#ubuntu環境" title="ubuntu環境"><span class="octicon octicon-link"></span></a>Ubuntu環境</h2><p>版本：ubuntu-16.04.3-desktop-amd64.iso</p><pre><code class="shell hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
-<span data-linenumber="2"></span>
-<span data-linenumber="3"></span>
-<span data-linenumber="4"></span></div><div class="code">sudo apt-get <span class="hljs-keyword">update</span>
-sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">install</span> libsdl1<span class="hljs-number">.2</span>-dev libtool libglib2<span class="hljs-number">.0</span>-dev libz-dev libpixman<span class="hljs-number">-1</span>-dev
-sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">install</span> qemu-kvm
-sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">install</span> git
-</div></div></code></pre><h2 id="執行"><a class="anchor hidden-xs" href="#執行" title="執行"><span class="octicon octicon-link"></span></a>執行</h2><pre><code class="shell hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
-<span data-linenumber="2"></span>
-<span data-linenumber="3"></span>
-<span data-linenumber="4"></span></div><div class="code">git <span class="hljs-keyword">clone</span> https:<span class="hljs-comment">//github.com/mit-pdos/xv6-public</span>
-cd xv6-<span class="hljs-keyword">public</span>
-make
-make qemu
-</div></div></code></pre></div>
+    <div id="doc" class="markdown-body container-fluid" style="position: relative;"><h1 id="chapter-4-locking"><a class="anchor hidden-xs" href="#chapter-4-locking" title="chapter-4-locking"><span class="octicon octicon-link"></span></a><strong>Chapter 4 Locking</strong></h1><p>B10315010 四資工四 張庭頤</p><p><strong>Lock在什麼情況下被存取</strong></p><pre><code>Lock(n.)，在排程問題上與計算機網路偶爾會提到的token類似，擁有它的CPU才能進行某些動作。
+通常與共用資料(shared data item)相關。
+為了確保shared data item不會同時被兩個以上CPU修改，通常同一個時間點當下只有一個CPU可以取得(hold) lock，握有lock的人才能夠對資料進行存取。
+</code></pre><hr><p><strong>Race condition</strong><br>
+<img src="https://i.imgur.com/IbCisdN.png" alt=""><br>
+<img src="https://i.imgur.com/TPXgXGA.png" alt=""><br>
+單一的CPU在執行這一段程式碼並無問題，但若有多個CPU嘗試同時進行修改資料中的數值(產生link list的程式碼Line 16)，由於要做的事情相同，但沒有任何機制限制CPU間的存取順序，造成哪邊記憶體寫入較快，哪邊就先存取，而後存取的資料會將原先存取的資料覆蓋，在系統運作上可能會導致資料遺失/沒有更新等bug，這種無法確定資料存取順序的情況稱作race condition(競逐狀態)<br>
+解決這類問題的方法有幾個，一種方法是在debugging insert()時加入print statement來錯開CPU執行時間點，進而使race condition消失。<br>
+另外一種就是藉由前述提及的lock來保證相互排斥(mutual exclusion)，也就是一段時間內只有一個CPU可以執行insert()。</p><hr><p><strong>Lock 相關名詞</strong></p><pre><code>6 struct list *list = 0;
+struct lock listlock;
+7
+8 void
+9 insert(int data)
+10 {
+11 struct list *l;
+12
+acquire(&amp;listlock);        lock結構起始點
+13 l = malloc(sizeof *l);
+14 l-&gt;data = data;
+15 l-&gt;next = list;
+16 list = l;
+    release(&amp;listlock);    lock結構結束點
+17 
+}
+</code></pre><pre><code>位於acquire與release間的區域為critical section，也就是lock保護的區域。
+</code></pre><p>但lock保護資料到底是什麼意思? 實際上是在某些invariant的集合被data應用期間(line 13~line16)能保持其invariant的特性，也就是”在系統操作期間維持該資料結構的特性”<br>
+以上面的例子來說，line13~16會造成race condition的原因前面提及是因為CPU間的搶先存取，更細部點來看，是第二個CPU在進行存取時會違反list invariants；意思是說，由於指標的分配/重新指向(line13/14)都需要時間，而lock就是確保這段期間只有一個CPU會進行這個動作。<br>
+最後，lock是serializing concurrent critical sections，也就是多個critical section一起執行，這使得後面的lock並不會知道前一個lock詳細到底做了什麼，只會看到資料更動過的結果。</p><hr><p><strong>Lock的種類</strong></p><pre><code>1500 // Mutual exclusion lock.
+1501 struct spinlock {
+1502 uint locked; // Is the lock held?
+1503
+1504 // For debugging:
+1505 char *name; // Name of lock.
+1506 struct cpu *cpu; // The cpu holding the lock.
+1507 uint pcs[10]; // The call stack (an array of program counters)
+1508 // that locked the lock.
+1509 };
+</code></pre><p>Xv6的lock種類可以分成spin-lock與sleep-lock，此處先以使用spin-lock為前提繼續往下敘述(圖為spin-lock的資料結構)，其中lock若為0，表示lock可被acquire；若為non-zero整數則代表正被某個cpu使用(held)</p><hr><p><strong>Lock如何運作</strong></p><pre><code>21 void
+22 acquire(struct spinlock *lk)
+23 {
+24 for(;;) {
+25 if(!lk-&gt;locked) {
+26 lk-&gt;locked = 1;
+27 break;
+28 }
+29 }
+30 }
+</code></pre><p>這是CPU在要求特定lock權限時的function，但可以發現，若兩個CPU同時到達line 25準備執行line26時，也會有搶奪lock使用權的情況，也就是說這個函式本身也有race condition。<br>
+要解決這個問題，必須將line25~26視為一個不可分割的程式片段(*one atomic step)。</p><p>*atomic operation:此操作一但開始，中間不會有任何context switch，也不能被切割，只執行其中的一部分程式碼。</p><pre><code>xchg(volatile uint *addr, uint newval)
+0570 {
+0571 uint result;
+0572
+0573 // The + in "+m" denotes a read−modify−write operand.
+0574 asm volatile("lock; xchgl %0, %1" :
+0575 "+m" (*addr), "=a" (result) :
+0576 "1" (newval) :
+0577 "cc");
+0578 return result;
+0579 }
+</code></pre><pre><code>1580 // The xchg is atomic.
+1581 while(xchg(&amp;lk−&gt;locked, 1) != 0)
+</code></pre><p>Xv6使用一個特別的函式叫xchg，volatile的作用是交換暫存器中記憶體的內容。</p><p>每個acpuire此lock的CPU都會逐一且單一的(atomically)執行此程式，並回傳1；當此lock正被使用時，lk-&gt;locked會被設置成1，並且持續在loop中打轉；直到lock被釋放後，lk-&gt;locked會變成0-&gt;此時lk-&gt;locked會是以1-&gt;0-&gt;1的方式取得lock，並且留下紀錄以方便debug.</p><pre><code>1600 // Release the lock.
+1601 void
+1602 release(struct spinlock *lk)
+1603 {
+1604 if(!holding(lk))
+1605 panic("release");
+1606
+1607 lk−&gt;pcs[0] = 0;
+1608 lk−&gt;cpu = 0;
+1609
+1610 // Tell the C compiler and the processor to not move loads or stores
+1611 // past this point, to ensure that all the stores in the critical
+1612 // section are visible to other cores before the lock is released.
+1613 // Both the C compiler and the hardware may re−order loads and
+1614 // stores; __sync_synchronize() tells them both not to.
+1615 __sync_synchronize();     //避免re-ordering的問題
+1616
+1617 // Release the lock, equivalent to lk−&gt;locked = 0.
+1618 // This code can’t use a C assignment, since it might
+1619 // not be atomic. A real OS would use C atomics here.
+1620 asm volatile("movl $0, %0" : "+m" (lk−&gt;locked) : );   //釋放lock
+1621
+1622 popcli();       
+1623 }
+</code></pre><p>Release則進行跟acquire相反的操作；呼叫組合語言來釋放lock(line 1620)</p><p>可以注意的是，C語言無法宣告一個程式片段是逐一且單一的在執行，因此實際上Xv6在此處不是使用單純的c語言，這裡spin-lock是專門設計給Xv6使用的。</p><p>當某個變數正被CPU寫入數值時，另外的CPU是可以對這個變數進行讀取或寫入的，撰寫Lock時必須避免這兩個CPU的操作重疊。<br>
+如果invariant包含了多個memory location，它們應該只被單一個clock保護以確保其invariant的特性能維持住。<br>
+如果使用Lock的CPU過多，將會降低平行處理的效率(因為部分區段只能讓一個CPU做事)。</p><hr><p><strong>Deadlock</strong></p><p>試想，今天有兩個code path(CP)以及A/B兩種Lock，如果CP1先行鎖住A，CP2先行鎖住B，若是CP1接著要鎖住B，而CP2要鎖住A的時候，由於兩邊所需的Lock分別在對方手上，造成兩邊的acquire()永遠無法取得需要的Lock，稱作死結(Deadlock)。<br>
+如果程式碼執行必須同時鎖住多個Lock，要避免Deadlock，它們鎖住Lock的順序必須要相同。<br>
+舉例來說，若想進行wakeup()必須先取得ide lock，但在這之前逼需先另外得到ptable的lock才能進行動作。(in ch5)</p><hr><p><strong>Interrupt Handlers</strong></p><p>interrupt code fragment</p><pre><code>3413 switch(tf−&gt;trapno){
+3414 case T_IRQ0 + IRQ_TIMER:
+3415 if(cpuid() == 0){
+3416 acquire(&amp;tickslock);
+3417 ticks++;
+3418 wakeup(&amp;ticks);
+3419 release(&amp;tickslock);
+3420 }
+3421 lapiceoi();
+3422 break;
+</code></pre><p>sys_sleep thread</p><pre><code>3815 sys_sleep(void)
+3816 {
+3817 int n;
+3818 uint ticks0;
+3819
+3820 if(argint(0, &amp;n) &lt; 0)
+3821 return −1;
+3822 acquire(&amp;tickslock);
+3823 ticks0 = ticks;
+3824 while(ticks − ticks0 &lt; n){
+3825 if(myproc()−&gt;killed){
+3826 release(&amp;tickslock);
+3827 return −1;
+3828 }
+3829 sleep(&amp;ticks, &amp;tickslock);
+3830 }
+3831 release(&amp;tickslock);
+3832 return 0;
+3833 }
+</code></pre><p>Xv6也常把Lock使用在中斷處理器與執行緒上，上圖中中斷器tick的增加會影響sys_sleep，同時可能有kernel threads正在讀取sys_sleep()；tick這個lock會使這兩個程序依序進行。<br>
+中斷器可能會有deadlock的產生。假設某iderw握有idelock，執行到interrupt後準備執行ideintr，但ideintr想要lock idelock，發現idelock被held，會等其釋放；但idelock不可能被釋放，因為iderw中斷四執行的指令(ideintr)還未回傳結果，也因此會造成deadlock。<br>
+因此，實際上process進到中斷處理器的critical section時，Xv6的spin-lock在此會產生作用；它確保這段critical內，該process的中斷處理不會發生，但其他processor的中斷仍可以發生，也因此該中斷器的interrupt可以等待thread釋放spin-lock；當確認該處理器已經釋放spin-lock後，會重新開啟其interrupt的功能。</p><hr><p><strong>Instruction and memory ordering</strong></p><pre><code>1 acquire(&amp;listlock);
+2 l = malloc(sizeof *l);
+3 l-&gt;data = data;
+4 l-&gt;next = list;
+5 list = l;
+6 release(&amp;listlock);
+</code></pre><p>為了更好的執行效率，許多處理器跟compiler並不會照著系統排序來依序執行程式碼，舉例來說，有個一系列循序的指令叫做指令A跟指令B，在這兩個指令不互相干涉(doesn’t depend on each other)的前提下，會有兩個處理器分別從A-&gt;B B-&gt;A的順序執行，以縮短處理時間。<br>
+方才提到，有多個處理器的電腦不一定會照著順序執行，但有時會造成災難性的後果(例如processor 從B開始執行，但B去指向A已經釋放的區域)<br>
+要處理這類問題，可在acquire()與release()加入_sync_synchronize() &lt;可參考本投影片p9&gt; 來告訴processor本區段不可重新排序或者交互儲存資訊。<br>
+特別的是，這個指令是專門針對acqruire()與release()的函式”當中”包含re_ordering等情況來進行處理，被夾在acqruire()與release()間的程式碼(line2~6)則有lock確保執行順序。</p><hr><p><strong>Sleep Lock</strong></p><p>有時候lock被鎖住的時間很長(例如讀寫硬碟檔案)，Xv6特別針對這類情況提供Sleep-lock進行處理。</p><p>特別的是，Sleeplock允許在其critical section產出(yielding)processor，這樣會產生一些問題。<br>
+假設程序T1 held Lock L1並且產生了另外一個程序，並且有個程序T2 acquire L1，我們必須確保T1在T2等待時可以順利的執行完成。T2不能使用spin-lock，其允許單一process執行的特行會使得T1無法繼續運作，造成deadlock的產生。<br>
+由於SleepLock會產生process的關係，其無法被中斷處理器或者spin-lock的critical section使用。(但以上述的例子來說，T2雖然不能使用spin-lock，但T1是可以使用spin-lock的)</p><hr><p><strong>Limitation of locks</strong></p><p>Lock在許多地方都被使用著，但有時候資料存取時會遇到一些問題。<br>
+某些程式需要使用一些被Lock住的資料時，可能會遇到兩種情況，一種是被上鎖的資料，另一種則是沒有必要上鎖的資料。解決的辦法也分成兩種:第一種是對前者要求解鎖，後者則默認沒有上鎖；另一種則是兩種都直接要求解鎖。</p><p>實際上是不一定要用atomically的方式來實做lock，但要付出的成本相對昂貴，也因此大多的os都有採用atomic instruction<br>
+如果有多個processor在同一時間要acquire同個lock，則負擔也會相對昂貴(因為需要從其他processor更新cache line)</p><div class="resize-sensor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div>
     <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
         <div class="pull-right dropdown">
             <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
                 <i class="fa fa-bars"></i>
             </a>
             <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
-                <div class="toc"><ul class="nav"><li class=""><a href="#106-ntust-os">106 NTUST OS</a><ul class="nav"><li><a href="#ubuntu環境">Ubuntu環境</a></li><li><a href="#執行">執行</a></li></ul></li></ul></div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+                <div class="toc"><ul class="nav"><li class=""><a href="#chapter-4-locking">Chapter 4 Locking</a></li></ul></div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
             </ul>
         </div>
     </div>
     <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;"  >
-        <div class="toc"><ul class="nav"><li class=""><a href="#106-ntust-os">106 NTUST OS</a><ul class="nav"><li><a href="#ubuntu環境">Ubuntu環境</a></li><li><a href="#執行">執行</a></li></ul></li></ul></div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+        <div class="toc"><ul class="nav"><li class=""><a href="#chapter-4-locking">Chapter 4 Locking</a></li></ul></div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
