@@ -1,0 +1,121 @@
+<html>
++<head>
++<meta content="text/html; charset=UTF-8" http-equiv="content-type">
++<style type="text/css">ol{margin:0;padding:0}table td,table th{padding:0}.c1{color:#000000;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:11pt;font-family:"Arial";font-style:normal}.c9{padding-top:0pt;padding-bottom:0pt;line-height:1.15;orphans:2;widows:2;text-align:center}.c0{padding-top:0pt;padding-bottom:0pt;line-height:1.15;orphans:2;widows:2;text-align:left}.c8{color:#000000;text-decoration:none;vertical-align:baseline;font-family:"Arial";font-style:italic}.c7{color:#000000;text-decoration:none;vertical-align:baseline;font-family:"Arial";font-style:normal}.c3{background-color:#ffffff;max-width:451.4pt;padding:72pt 72pt 72pt 72pt}.c4{height:11pt}.c5{font-weight:700}.c6{font-size:14pt}.c2{text-indent:36pt}.title{padding-top:0pt;color:#000000;font-size:26pt;padding-bottom:3pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}.subtitle{padding-top:0pt;color:#666666;font-size:15pt;padding-bottom:16pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}li{color:#000000;font-size:11pt;font-family:"Arial"}p{margin:0;color:#000000;font-size:11pt;font-family:"Arial"}h1{padding-top:20pt;color:#000000;font-size:20pt;padding-bottom:6pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h2{padding-top:18pt;color:#000000;font-size:16pt;padding-bottom:6pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h3{padding-top:16pt;color:#434343;font-size:14pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h4{padding-top:14pt;color:#666666;font-size:12pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h5{padding-top:12pt;color:#666666;font-size:11pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h6{padding-top:12pt;color:#666666;font-size:11pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;font-style:italic;orphans:2;widows:2;text-align:left}
++</style>
++</head>
++<body class="c3">
++<p class="c9">
++<span class="c5 c6 c8">xv6&rsquo;s Page Tables</span>
++</p>
++<p class="c0 c2">
++<span class="c1">Page Tables are the ways for the operating system to control what the address means. This component make xv6 to multiplex the address spaces of different processes onto a single physical memory and protect the memories. It also uses page-table tricks such as mapping the same memory in several address spaces, mapping the same memory in one address space for more than once and guard the user stack with an unmapped page.
++</span>
++</p>
++<p class="c0 c4 c2">
++<span class="c1">
++</span>
++</p>
++<p class="c0">
++<span class="c5 c6 c7">Paging Hardware
++</span></p><p class="c0 c2">
++<span class="c1">The machine&rsquo;s RAM,or physical memory(the storage cells in DRAM, a byte of it has an address), is indexed with physical addresses. An x86 page table hardware is what connects/ mapping the virtual addresses to the physical addresses. An x86 page table is logically an array of 2^20 PTEs. It contain 20-bit PPN and some flags. The hardware translates a virtual address using its top 20 bits to index into the page table to find a PTE and then it replaces the address&rsquo;s top 20 bits with the PPN in the PTE. The hardware copies the low 12 bits unchanged from the virtual to the translated physical address. It gives the operating system the control of addresses translations at the granularity of aligned chunks/ pages of 4096 bytes. The translation happens in two steps. A page table is stored in physical address as a two-level tree. The two-level structure allows a page table to omit entire page table pages in the common case in which large ranges of virtual addresses have no mappings. The root of tree is a 4096-byte page directory that contains 1024 PTE-like references to a page table pages. Each page table pages are an array of 1024 32-bits PTEs. The paging hardware uses the top 10 bits of a virtual address to select a page directory entry. If the page directory is present, the hardware will use the next 10 bits to select a PTE from the page table page that the page directory entry refers to. If PTE or the page directory entry not found, then the paging hardware will raise a fault . The PTE contains flags bits such as PTE_P(present), PTE_W(write) and PTE_U(usage of page).
++</span>
++</p>
++<p class="c0 c2">
++<span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 525.50px; height: 356.14px;">
++<img alt="" src="images/image4.png" style="width: 749.65px; height: 422.14px; margin-left: -108.34px; margin-top: -66.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);" title="">
++</span>
++</p>
++<p class="c0 c4">
++<span class="c7 c5 c6">
++</span>
++</p>
++<p class="c0">
++<span class="c7 c5 c6">Process Address Space
++</span>
++</p>
++<p class="c0">
++<span class="c1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main will change to a new page table by calling kvmalloc
++</span>
++</p>
++<p class="c0">
++<span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 382.00px; height: 109.00px;">
++<img alt="" src="images/image3.png" style="width: 602.00px; height: 339.00px; margin-left: -66.00px; margin-top: -169.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);" title="">
++</span>
++</p>
++<p class="c0">
++<span class="c1">Each process has a separate page table. A process&rsquo;s user memory starts at virtual address zero and can grow up to KERNBASE(2GB of memory). If the process asks for more memory, xv6 will first finds free physical pages to provide storage and sets PTE_U, PTE_W and PTE_P(leave it clear in unused PTEs) flags. xv6 maps virtual addresses KERNBASE: KERNBASE+PHYSTOP to 0:PHYSTOP so that the kernel can use its own instructions and data and it sometimes needs to be able to write a given page of physical memory. Problems are the limited memory and the PTE_U flag so only kernel can use them. xv6 ensures each process to use its own memory and sees its memory as contiguous virtual address starting at 0 while the process&rsquo;s physical memory can be non contiguous. It implements the first by setting PTE_U bit only on PTEs of virtual addresses which refer to the process&rsquo;s own memory and implements the second using the ability of page tables to translate successive virtual addresses to whatever physical pages allocated to the process.
++</span>
++</p>
++<p class="c0 c4"><span class="c1">
++</span>
++</p>
++<p class="c0">
++<span class="c5 c6">Create an address space</span></p><p class="c0"><span class="c1">Calls kvmalloc (create and switch to a page table with the mappings above KERNBASE).
++</span>
++</p>
++<p class="c0">
++<span class="c1">Calls mappage to install translations(memory up to PHYSTOP) for kernel in kmap array.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
++</span>
++</p>
++<p class="c0">
++<span class="c1">mappage installs mapping into a page table for a range of virtual address and initializes the PTEs.
++</span>
++</p>
++<p class="c0">
++<span class="c1">walkpgdir mimics the actions of the x86 paging hardware to look up PTE for a virtual address.
++</span>
++</p>
++<p class="c0 c4">
++<span class="c1">
++</span>
++</p>
++<p class="c0">
++<span class="c5 c6">Physical memory allocation</span></p><p class="c0"><span class="c1">Kernel must allocate and free physical memory at run-time for page tables, process user memory, kernel stacks and pipe buffers.
++</span>
++</p>
++<p class="c0 c4">
++<span class="c1">
++</span>
++</p>
++<p class="c0">
++<span class="c5 c6">Physical memory allocator
++</span>
++</p>
++<p class="c0">
++<span class="c1">Calls kinit1 and kinit2 to initialize allocator.
++</span>
++</p>
++<p class="c0">
++<span class="c1">Calls freerange(uses PGROUNDUP to ensure it only frees aligned physical addresses)) to add memory to the free list via per-page calls to kfree.
++</span>
++</p>
++<p class="c0">
++<span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 235.00px; height: 181.00px;">
++<img alt="" src="images/image2.png" style="width: 602.00px; height: 339.00px; margin-left: -298.00px; margin-top: -130.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);" title="">
++</span>
++</p>
++<p class="c0">
++<span class="c5">sbrk
++</span>
++<span class="c1">&nbsp;is the system call for a process to shrink or grow its memory
++</span>
++</p>
++<p class="c0">
++<span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 236.00px; height: 163.00px;">
++<img alt="" src="images/image5.png" style="width: 602.00px; height: 339.00px; margin-left: -288.00px; margin-top: -74.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);" title=""></span></p><p class="c0">
++<span>&nbsp;
++</span>
++<span class="c5">exec
++</span>
++<span class="c1">&nbsp;is the system call that creates the user part of an address space 
++</span>
++</p>
++<p class="c0">
++<span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 288.00px; height: 175.50px;">
++<img alt="" src="images/image1.png" style="width: 468.58px; height: 210.97px; margin-left: -80.17px; margin-top: -35.47px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);" title="">
++</span>
++</p>
++</body>
++</html>
