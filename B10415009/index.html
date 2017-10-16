@@ -1,1 +1,1217 @@
-homework not found!!
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>
+        Introduction: Page Tables(Chapter 2) - HackMD
+    </title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+    <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/github-gist.min.css" integrity="sha256-tAflq+ymku3Khs+I/WcAneIlafYgDiOQ9stIHH985Wo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,600,600italic,300italic,300|Source+Serif+Pro|Source+Code+Pro:400,300,500&subset=latin,latin-ext);.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\A0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.markdown-body kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:none;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram{text-align:center;background-color:inherit;border-radius:0;white-space:inherit}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p,.markdown-body .alert>ul{margin-bottom:0}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.MJX_Assistive_MathML{display:none}.ui-infobar{position:relative;z-index:2;max-width:758px;margin-top:25px;margin-bottom:-25px;color:#777}.ui-toc{position:fixed;bottom:20px;z-index:10000}.ui-toc-label{opacity:.3;background-color:#ccc;border:none;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:23px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child > ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,Hiragino Kaku Gothic Pro,\\30D2\30E9\30AE\30CE\89D2\30B4 Pro W3,Osaka,Meiryo,\\30E1\30A4\30EA\30AA,MS Gothic,"\FF2D\FF33   \30B4\30B7\30C3\30AF",sans-serif}.ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,"\FF2D\FF33   \FF30\30B4\30B7\30C3\30AF",sans-serif}.markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,PingFang TC,Microsoft JhengHei,\\5FAE\8EDF\6B63\9ED1,sans-serif}.ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,\\5FAE\8EDF\6B63\9ED1UI,sans-serif}.markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,PingFang SC,Microsoft YaHei,\\5FAE\8F6F\96C5\9ED1,sans-serif}.ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,\\5FAE\8F6F\96C5\9ED1UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:3px;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:contain}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}small span{line-height:22px}small .dropdown{display:inline-block}small .dropdown a:focus,small .dropdown a:hover{text-decoration:none}.unselectable{-moz-user-select:none;-webkit-user-select:none;-o-user-select:none;user-select:none}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;font-family:Source Sans Pro,Helvetica,Arial,sans-serif;letter-spacing:.025em}.focus,:focus{outline:none!important}::-moz-focus-inner{border:0!important}body.modal-open{overflow-y:auto;padding-right:0!important}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="doc" class="markdown-body container-fluid" style="position: relative;"><h1 id="introduction-page-tableschapter-2" style=""><a class="anchor hidden-xs" href="#introduction-page-tableschapter-2" title="introduction-page-tableschapter-2"><span class="octicon octicon-link"></span></a>Introduction: Page Tables(Chapter 2)</h1><h2 id="一、運作原理" style=""><a class="anchor hidden-xs" href="#一、運作原理" title="一、運作原理"><span class="octicon octicon-link"></span></a>一、運作原理</h2><h3 id="1-前言" style=""><a class="anchor hidden-xs" href="#1-前言" title="1-前言"><span class="octicon octicon-link"></span></a>1. 前言</h3><p>在現代的電腦系統中，程式與其資料都必須存放在記憶體中，才能直接被CPU所使用，而在多工處理系統中，由於記憶體內會同時存放著多份程式與資料，因此作業系統不僅要負責追蹤並記錄每個程式存放在記憶體內的哪個位址，還要把程式裡面參考到的位址轉換成記憶體的位址。</p><h3 id="2-背景知識" style=""><a class="anchor hidden-xs" href="#2-背景知識" title="2-背景知識"><span class="octicon octicon-link"></span></a>2. 背景知識</h3><p>一般在做Memory Allocation時分為兩種方法：</p><h4 id="a-contiguous-memory-allocation"><a class="anchor hidden-xs" href="#a-contiguous-memory-allocation" title="a-contiguous-memory-allocation"><span class="octicon octicon-link"></span></a>a. Contiguous Memory Allocation</h4><p>直接為根據process所需記憶體大小，為其劃分可用的<strong>連續</strong>記憶體空間使用。<br>
+如下圖：<img src="https://i.imgur.com/P3CFlrz.png" alt=""><br>
+缺點為會因為<strong>外部碎裂</strong>(<strong>External Fragmentation</strong>)造成記憶體空間浪費。</p><h4 id="b-non-contiguous-memory-allocation"><a class="anchor hidden-xs" href="#b-non-contiguous-memory-allocation" title="b-non-contiguous-memory-allocation"><span class="octicon octicon-link"></span></a>b. Non-Contiguous Memory Allocation</h4><p>允許process載入<strong>不連續</strong>的記憶體空間，只要可用空間的總大小足以容納該process即可。</p><p>原理是將記憶體劃分成相同大小的區塊，稱為<strong>頁框(frame)</strong>，然後將程式也劃分成相同大小的區塊，稱為<strong>分頁(page)</strong>。</p><p>當程式準備執行時，它的分頁會被載入記憶體的頁框，每個分頁對應一個頁框，但頁框不需要是連續的，分散或順序顛倒也無妨。</p><p>為了記錄程式的每個分頁是載入到記憶體的哪些頁框，因此我們需要一個<strong>分頁表(page table)</strong>。</p><h3 id="3-實際運作過程" style=""><a class="anchor hidden-xs" href="#3-實際運作過程" title="3-實際運作過程"><span class="octicon octicon-link"></span></a>3. 實際運作過程</h3><h4 id="a-位址轉換"><a class="anchor hidden-xs" href="#a-位址轉換" title="a-位址轉換"><span class="octicon octicon-link"></span></a>a. 位址轉換</h4><p>利用page table將virtual address轉為physical address時可分為兩個步驟：</p><ol>
+<li>paging hardware會根據virtual address的前10 bits找到page directory中相應的page directory entry(PDE)，若其存在則進入下個步驟。</li>
+<li>paging hardware會從前一步驟找到之PDE中，根據virtual address的11~20 bits從page table定位出相應的page table page，並以此得到正確的Physical Address。</li>
+</ol><p><img src="https://i.imgur.com/pU4jBke.png" alt=""></p><p>在過程中無論是PDE不存在或找不到page table page，都會導致系統錯誤。</p><p>此外，PDE其他bits(0~12)中，還會包含一些資訊，指示paging hardware這段virtual address的狀態、權限等等，如下圖所示。</p><p><img src="https://i.imgur.com/RWwQCTA.png" alt=""></p><h4 id="b-記憶體初始布局"><a class="anchor hidden-xs" href="#b-記憶體初始布局" title="b-記憶體初始布局"><span class="octicon octicon-link"></span></a>b. 記憶體初始布局</h4><p>xv6系統初始化後physical address的布局情況如下圖所示：<br>
+<img src="https://i.imgur.com/cS4mY7t.png" alt=""><br>
+memory的0~1MB存的是BIOS，1~4MB存的是xv6的code和data segment，4~224MB可供os自由分配(因為xv6預設memory大小為224MB)，224MB以上是其他devices的空間，不屬於main memory。</p><p>實際virtual address對phsical address的mapping則如下圖所示：<br>
+<img src="https://i.imgur.com/I07VMKu.png" alt=""></p><p>具體程式碼定義可參考<a href="https://hackmd.io/s/ByFFWcy6b#kmap" target="_blank">這裡</a>。</p><h2 id="二、程式流程圖" style=""><a class="anchor hidden-xs" href="#二、程式流程圖" title="二、程式流程圖"><span class="octicon octicon-link"></span></a>二、程式流程圖</h2><h3 id="1-kvmalloc" style=""><a class="anchor hidden-xs" href="#1-kvmalloc" title="1-kvmalloc"><span class="octicon octicon-link"></span></a>1. kvmalloc()</h3><p><img src="https://i.imgur.com/jSGw8uH.png" alt=""></p><h3 id="2-kinit" style=""><a class="anchor hidden-xs" href="#2-kinit" title="2-kinit"><span class="octicon octicon-link"></span></a>2. kinit()</h3><p><img src="https://i.imgur.com/6HuxS3G.png" alt=""></p><h3 id="3-growproc" style=""><a class="anchor hidden-xs" href="#3-growproc" title="3-growproc"><span class="octicon octicon-link"></span></a>3. growproc()</h3><p><img src="https://i.imgur.com/Djp9giB.png" alt=""></p><h3 id="4-exec" style=""><a class="anchor hidden-xs" href="#4-exec" title="4-exec"><span class="octicon octicon-link"></span></a>4. exec()</h3><p><img src="https://i.imgur.com/TOfsbz7.png" alt=""></p><h2 id="三、程式碼" style=""><a class="anchor hidden-xs" href="#三、程式碼" title="三、程式碼"><span class="octicon octicon-link"></span></a>三、程式碼</h2><h3 id="0-preprocessor-definitions" style=""><a class="anchor hidden-xs" href="#0-preprocessor-definitions" title="0-preprocessor-definitions"><span class="octicon octicon-link"></span></a>0. Preprocessor Definitions</h3><h4 id="memlayouth"><a class="anchor hidden-xs" href="#memlayouth" title="memlayouth"><span class="octicon octicon-link"></span></a>memlayout.h</h4><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span></div><div class="code"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EXTMEM  0x100000            <span class="hljs-comment">// extended memory的起始位址</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> PHYSTOP 0xE000000           <span class="hljs-comment">// physical memory的Top位址 </span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> DEVSPACE 0xFE000000         <span class="hljs-comment">// Other devices are at high addresses</span></span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KERNBASE 0x80000000         <span class="hljs-comment">// 第一個kernel virtual 位址</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KERNLINK (KERNBASE+EXTMEM)  <span class="hljs-comment">// kernel連接的位址</span></span>
+
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> V2P(a) (((uint) (a)) - KERNBASE)    <span class="hljs-comment">// 將Virtual address轉換為Physical address</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> P2V(a) (((void *) (a)) + KERNBASE)  <span class="hljs-comment">// 將Physical address轉換為Virtual address</span></span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> V2P_WO(x) ((x) - KERNBASE)    <span class="hljs-comment">// 與V2P相同，但沒有型別轉換</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> P2V_WO(x) ((x) + KERNBASE)    <span class="hljs-comment">// 與V2P相同，但沒有型別轉換</span></span>
+</div></div></code></pre><h4 id="mmuh"><a class="anchor hidden-xs" href="#mmuh" title="mmuh"><span class="octicon octicon-link"></span></a>mmu.h</h4><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span></div><div class="code"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> NPDENTRIES      1024    <span class="hljs-comment">// # 每個page directory中的directory entries數量</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> NPTENTRIES      1024    <span class="hljs-comment">// # 每個page table的PTEs數量</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> PGSIZE          4096    <span class="hljs-comment">// 一個page的大小(bytes)</span></span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> PGSHIFT         12      <span class="hljs-comment">// log2(PGSIZE)</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> PTXSHIFT        12      <span class="hljs-comment">// offset of PTX in a linear address</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> PDXSHIFT        22      <span class="hljs-comment">// offset of PDX in a linear address</span></span>
+</div></div></code></pre><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span></div><div class="code"><span class="hljs-comment">#define PGROUNDUP(sz)  (((sz)+PGSIZE-1) &amp; ~(PGSIZE-1))</span>
+<span class="hljs-comment">#define PGROUNDDOWN(a) (((a)) &amp; ~(PGSIZE-1))</span>
+</div></div></code></pre><p><code>PGROUNDUP(sz)</code>值為address所屬page的上界<br>
+<code>PGROUNDDOWN(a)</code>值為address所屬page的下界</p><p>ex：<br>
+若一系統PGSIZE為1KB，address為620及2400，則</p><blockquote>
+<p>PGROUNDUP(620) ==&gt; ((620 + (1024 -1)) &amp; ~(1023)) ==&gt; 1024<br>
+因此address 620當頁page的上界為1024</p>
+</blockquote><blockquote>
+<p>PGROUNDDOWN(2400) ==&gt;(2400 &amp; ~(1023))==&gt; 2048<br>
+因此address 2400當頁page的下界為1024</p>
+</blockquote><h3 id="1-kvmalloc1" style=""><a class="anchor hidden-xs" href="#1-kvmalloc1" title="1-kvmalloc1"><span class="octicon octicon-link"></span></a>1. kvmalloc()</h3><p>在剛開始運行xv6時，main會透過呼叫kvmalloc來創建並切換至kernal專屬的page table中。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">void</span>
+<span class="hljs-title">kvmalloc</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+  <span class="hljs-comment">//創建kernal page table，並將kpgdir設為其page directory</span>
+  kpgdir = setupkvm();
+  <span class="hljs-comment">//切換至kernal page table</span>
+  switchkvm();
+}
+</div></div></code></pre><p>以下分為setupkvm()及switchkvm()兩部分做說明。</p><hr><h4 id="1-setupkvm"><a class="anchor hidden-xs" href="#1-setupkvm" title="1-setupkvm"><span class="octicon octicon-link"></span></a>1. setupkvm()</h4><p>為kernal分配一個page用來存放page directory，並通<code>mappages()</code>創建page table。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span></div><div class="code"><span class="hljs-keyword">pde_t</span>*
+setupkvm(<span class="hljs-keyword">void</span>)
+{
+  <span class="hljs-keyword">pde_t</span> *pgdir;
+  <span class="hljs-keyword">struct</span> kmap *k;
+
+  <span class="hljs-comment">// alloc一段位址，若失敗則retun 0</span>
+  <span class="hljs-keyword">if</span>((pgdir = (<span class="hljs-keyword">pde_t</span>*)kalloc()) == <span class="hljs-number">0</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+  <span class="hljs-comment">//將alloc的位址初始化為0</span>
+  <span class="hljs-built_in">memset</span>(pgdir, <span class="hljs-number">0</span>, PGSIZE);
+  
+  <span class="hljs-comment">//檢查PHYSTOP是否超過DEVSPACE，若是則提示錯誤訊息</span>
+  <span class="hljs-keyword">if</span> (P2V(PHYSTOP) &gt; (<span class="hljs-keyword">void</span>*)DEVSPACE)
+    panic(<span class="hljs-string">"PHYSTOP too high"</span>);
+ 
+  <span class="hljs-comment">//遍歷整個kmap，並用mappages()為每個page建立PDE：</span>
+  <span class="hljs-keyword">for</span>(k = kmap; k &lt; &amp;kmap[NELEM(kmap)]; k++)
+    <span class="hljs-keyword">if</span>(mappages(pgdir, k-&gt;virt, k-&gt;phys_end - k-&gt;phys_start,
+               (uint)k-&gt;phys_start, k-&gt;perm) &lt; <span class="hljs-number">0</span>) {
+      <span class="hljs-comment">//刪除pgdir</span>
+      freevm(pgdir);
+      <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    }
+  <span class="hljs-keyword">return</span> pgdir;
+}
+</div></div></code></pre><h5 id="kmap"><a class="anchor hidden-xs" href="#kmap" title="kmap"><span class="octicon octicon-link"></span></a>kmap</h5><p>定義kernal的mapping</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span></div><div class="code"><span class="hljs-comment">// This table defines the kernel's mappings, which are present in</span>
+<span class="hljs-comment">// every process's page table.</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> kmap {
+  <span class="hljs-keyword">void</span> *virt;         <span class="hljs-comment">//virtual address  </span>
+  <span class="hljs-keyword">uint</span> phys_start;    <span class="hljs-comment">//physical address的起始位址</span>
+  <span class="hljs-keyword">uint</span> phys_end;      <span class="hljs-comment">//physical address的結束位址</span>
+  <span class="hljs-keyword">int</span> perm;           <span class="hljs-comment">//權限管理</span>
+} kmap[] = {
+ { (<span class="hljs-keyword">void</span>*)KERNBASE, <span class="hljs-number">0</span>,             EXTMEM,    PTE_W}, <span class="hljs-comment">// I/O space</span>
+ { (<span class="hljs-keyword">void</span>*)KERNLINK, V2P(KERNLINK), V2P(data), <span class="hljs-number">0</span>},     <span class="hljs-comment">// kern text+rodata</span>
+ { (<span class="hljs-keyword">void</span>*)data,     V2P(data),     PHYSTOP,   PTE_W}, <span class="hljs-comment">// kern data+memory</span>
+ { (<span class="hljs-keyword">void</span>*)DEVSPACE, DEVSPACE,      <span class="hljs-number">0</span>,         PTE_W}, <span class="hljs-comment">// more devices</span>
+};
+</div></div></code></pre><h5 id="p2v"><a class="anchor hidden-xs" href="#p2v" title="p2v"><span class="octicon octicon-link"></span></a>P2V()</h5><p>詳見 <a href="https://hackmd.io/GwMwRmoJwOwLQhDArHALARgKatgYzzhgENkAGZGNNGAZmIBMg===?view#0-preprocessor-definitions" target="_blank">0. Preprocessor Definitions</a></p><h5 id="panic"><a class="anchor hidden-xs" href="#panic" title="panic"><span class="octicon octicon-link"></span></a>panic()</h5><p>print字串。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">void</span>
+<span class="hljs-title">panic</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *s)</span>
+</span>{
+  <span class="hljs-built_in">printf</span>(<span class="hljs-number">2</span>, <span class="hljs-string">"%s\n"</span>, s);
+  <span class="hljs-built_in">exit</span>();
+}
+</div></div></code></pre><h5 id="nelem"><a class="anchor hidden-xs" href="#nelem" title="nelem"><span class="octicon octicon-link"></span></a>NELEM()</h5><p>回傳陣列中的元素個數。<br>
+<code>#define NELEM(x) (sizeof(x)/sizeof((x)[0]))</code></p><h5 id="mappages"><a class="anchor hidden-xs" href="#mappages" title="mappages"><span class="octicon octicon-link"></span></a>mappages()</h5><p>建立page directory中的所有entry。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span>
+<span class="hljs-title">mappages</span>(<span class="hljs-params">pde_t *pgdir, <span class="hljs-keyword">void</span> *va, <span class="hljs-keyword">uint</span> size, <span class="hljs-keyword">uint</span> pa, <span class="hljs-keyword">int</span> perm</span>)
+</span>{
+  <span class="hljs-keyword">char</span> *a, *last;
+  pte_t *pte;
+  
+  <span class="hljs-comment">//利用PGROUNDOWN對齊</span>
+  a = (<span class="hljs-keyword">char</span>*)PGROUNDDOWN((<span class="hljs-keyword">uint</span>)va);
+  last = (<span class="hljs-keyword">char</span>*)PGROUNDDOWN(((<span class="hljs-keyword">uint</span>)va) + size - <span class="hljs-number">1</span>);
+  <span class="hljs-keyword">for</span>(;;){
+    <span class="hljs-comment">//利用walkpgdir找到PTE，如果回傳值為0則傳回-1</span>
+    <span class="hljs-keyword">if</span>((pte = walkpgdir(pgdir, a, <span class="hljs-number">1</span>)) == <span class="hljs-number">0</span>)
+      <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    <span class="hljs-comment">//若pte已存在則提示"remap"</span>
+    <span class="hljs-keyword">if</span>(*pte &amp; PTE_P)
+      panic(<span class="hljs-string">"remap"</span>);
+          
+    <span class="hljs-comment">//設定權限</span>
+    *pte = pa | perm | PTE_P;
+    <span class="hljs-comment">//查找到最後一項時跳出迴圈</span>
+    <span class="hljs-keyword">if</span>(a == last)
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-comment">//跳向下一個page</span>
+    a += PGSIZE;
+    pa += PGSIZE;
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></div></code></pre><h5 id="walkpgdir"><a class="anchor hidden-xs" href="#walkpgdir" title="walkpgdir"><span class="octicon octicon-link"></span></a>walkpgdir()</h5><p>回傳PTE的address給<code>pgdir</code>。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">static</span> pte_t *
+<span class="hljs-title">walkpgdir</span><span class="hljs-params">(<span class="hljs-keyword">pde_t</span> *pgdir, <span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *va, <span class="hljs-keyword">int</span> alloc)</span>
+</span>{
+  <span class="hljs-keyword">pde_t</span> *pde;
+  <span class="hljs-keyword">pte_t</span> *pgtab;
+
+  pde = &amp;pgdir[PDX(va)];
+  <span class="hljs-comment">//如果PDE已存在，表示page table已存在，回傳轉為virtual address的PTE_ADDR</span>
+  <span class="hljs-comment">//若不存在，則新建一個page table</span>
+  <span class="hljs-keyword">if</span>(*pde &amp; PTE_P){
+    pgtab = (<span class="hljs-keyword">pte_t</span>*)P2V(PTE_ADDR(*pde));
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">if</span>(!alloc || (pgtab = (<span class="hljs-keyword">pte_t</span>*)kalloc()) == <span class="hljs-number">0</span>)
+      <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-comment">// 確保所有PTE_P都為0</span>
+    <span class="hljs-built_in">memset</span>(pgtab, <span class="hljs-number">0</span>, PGSIZE);
+    <span class="hljs-comment">// 將轉為physical address的pgtab，加上PTE_P、PTE_W、PTE_U後指派給pde</span>
+    *pde = V2P(pgtab) | PTE_P | PTE_W | PTE_U;
+  }
+  <span class="hljs-keyword">return</span> &amp;pgtab[PTX(va)];
+}
+</div></div></code></pre><h5 id="freevm"><a class="anchor hidden-xs" href="#freevm" title="freevm"><span class="octicon octicon-link"></span></a>freevm()</h5><p>用deallocuvm()<code>將</code>0到KERNBASE的virtual address空間回收，然后free掉page dirctory。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">void</span>
+<span class="hljs-title">freevm</span><span class="hljs-params">(<span class="hljs-keyword">pde_t</span> *pgdir)</span>
+</span>{
+  uint i;
+
+  <span class="hljs-keyword">if</span>(pgdir == <span class="hljs-number">0</span>)
+    panic(<span class="hljs-string">"freevm: no pgdir"</span>);
+  <span class="hljs-comment">//將 0 到 KERNBASE 的virtual address回收</span>
+  deallocuvm(pgdir, KERNBASE, <span class="hljs-number">0</span>);
+  <span class="hljs-comment">//銷毀整個page directory</span>
+  <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; NPDENTRIES; i++){
+    <span class="hljs-keyword">if</span>(pgdir[i] &amp; PTE_P){
+      <span class="hljs-keyword">char</span> * v = P2V(PTE_ADDR(pgdir[i]));
+      kfree(v);
+    }
+  }
+  kfree((<span class="hljs-keyword">char</span>*)pgdir);
+}
+</div></div></code></pre><hr><h4 id="2-switchkvm"><a class="anchor hidden-xs" href="#2-switchkvm" title="2-switchkvm"><span class="octicon octicon-link"></span></a>2. switchkvm()</h4><p>將hardware page table register轉至kernal page table。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">void</span>
+<span class="hljs-title">switchkvm</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+  <span class="hljs-comment">//轉移至kernal page table</span>
+  lcr3(V2P(kpgdir));
+}
+</div></div></code></pre><hr><h3 id="2-kinit1" style=""><a class="anchor hidden-xs" href="#2-kinit1" title="2-kinit1"><span class="octicon octicon-link"></span></a>2. kinit()</h3><h4 id="physical-address初始化"><a class="anchor hidden-xs" href="#physical-address初始化" title="physical-address初始化"><span class="octicon octicon-link"></span></a>Physical Address初始化</h4><p>kernal code存在physical address的0x100000，kernal page table則是<code>entrypgdir</code>。<br>
+virtual address-&gt;physical address 轉換為 [KERNBASE, KERNBASE+4MB)-&gt;[0, 4MB)。</p><p>因此，4MB及以上的physical adddress需要透過<code>main()</code>呼叫<code>kinit1()</code>和<code>kinit2()</code>初始化。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">int</span>
+<span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+<span class="hljs-comment">//初始化4MB空間</span>
+kinit1(end, P2V(<span class="hljs-number">4</span>*<span class="hljs-number">1024</span>*<span class="hljs-number">1024</span>)); 
+<span class="hljs-comment">//初始化4MB以上空間</span>
+kinit2(P2V(<span class="hljs-number">4</span>*<span class="hljs-number">1024</span>*<span class="hljs-number">1024</span>), P2V(PHYSTOP));
+}
+</div></div></code></pre><h4 id="1-kinit1"><a class="anchor hidden-xs" href="#1-kinit1" title="1-kinit1"><span class="octicon octicon-link"></span></a>1. kinit1()</h4><p>xv6系统啟動後被<code>main()</code>呼叫。<br>
+分為<code>kinit1()</code>和<code>kinit2()</code>是因為剛啟動時pdt中只存在4MB memory可以使用，需要使用<code>kinit1()</code>初始化。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">void</span>
+<span class="hljs-title">kinit1</span>(<span class="hljs-params"><span class="hljs-keyword">void</span> *vstart, <span class="hljs-keyword">void</span> *vend</span>)
+</span>{
+  initlock(&amp;kmem.<span class="hljs-keyword">lock</span>, <span class="hljs-string">"kmem"</span>);
+  <span class="hljs-comment">//此時不需要用鎖(且鎖在4MB位址外，無法用)</span>
+  kmem.use_lock = <span class="hljs-number">0</span>;
+  <span class="hljs-comment">//將vstart~vend這段memory分割為frames</span>
+  freerange(vstart, vend);
+}
+</div></div></code></pre><h5 id="kmem"><a class="anchor hidden-xs" href="#kmem" title="kmem"><span class="octicon octicon-link"></span></a>kmem</h5><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span></div><div class="code"><span class="hljs-keyword">struct</span> {
+  <span class="hljs-comment">//spinlock</span>
+  <span class="hljs-keyword">struct</span> spinlock <span class="hljs-keyword">lock</span>;
+  <span class="hljs-comment">//是否使用lock</span>
+  <span class="hljs-keyword">int</span> use_lock;
+  <span class="hljs-comment">//儲存空閒的frame list</span>
+  <span class="hljs-keyword">struct</span> run *freelist;
+} kmem;
+</div></div></code></pre><h5 id="run"><a class="anchor hidden-xs" href="#run" title="run"><span class="octicon octicon-link"></span></a>run</h5><p>每個run都是一個list中的element，連接list中下一個element。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span></div><div class="code"><span class="hljs-keyword">struct</span> run {
+  <span class="hljs-keyword">struct</span> run *next;
+};
+</div></div></code></pre><h5 id="freerange"><a class="anchor hidden-xs" href="#freerange" title="freerange"><span class="octicon octicon-link"></span></a>freerange()</h5><p>將vstart~vend這段memory分割為frames。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">void</span>
+<span class="hljs-title">freerange</span>(<span class="hljs-params"><span class="hljs-keyword">void</span> *vstart, <span class="hljs-keyword">void</span> *vend</span>)
+</span>{
+  <span class="hljs-keyword">char</span> *p;
+  <span class="hljs-comment">//找到vstart位址所屬frame的上界</span>
+  p = (<span class="hljs-keyword">char</span>*)PGROUNDUP((<span class="hljs-keyword">uint</span>)vstart);
+  <span class="hljs-comment">//只要上界不超過vend，就持續將memory空間切割為frames</span>
+  <span class="hljs-keyword">for</span>(; p + PGSIZE &lt;= (<span class="hljs-keyword">char</span>*)vend; p += PGSIZE)
+    kfree(p);
+}
+</div></div></code></pre><h5 id="kfree"><a class="anchor hidden-xs" href="#kfree" title="kfree"><span class="octicon octicon-link"></span></a>kfree()</h5><p>將frames加入free frame list中。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">void</span>
+<span class="hljs-title">kfree</span>(<span class="hljs-params"><span class="hljs-keyword">char</span> *v</span>)
+</span>{
+  <span class="hljs-keyword">struct</span> run *r;
+  <span class="hljs-comment">//檢查是否超過限制範圍</span>
+  <span class="hljs-keyword">if</span>((<span class="hljs-keyword">uint</span>)v % PGSIZE || v &lt; end || V2P(v) &gt;= PHYSTOP)
+    panic(<span class="hljs-string">"kfree"</span>);
+
+  <span class="hljs-comment">// 將整段memory值設為1，這樣在發生dangling reference會報錯</span>
+  memset(v, <span class="hljs-number">1</span>, PGSIZE);
+
+  <span class="hljs-keyword">if</span>(kmem.use_lock)
+    acquire(&amp;kmem.<span class="hljs-keyword">lock</span>);
+ 
+  <span class="hljs-comment">//將v轉為run型別後指派給r</span>
+  r = (<span class="hljs-keyword">struct</span> run*)v;
+  <span class="hljs-comment">//將r接上freelist上</span>
+  r-&gt;next = kmem.freelist;
+  kmem.freelist = r;
+ 
+  <span class="hljs-keyword">if</span>(kmem.use_lock)
+    release(&amp;kmem.<span class="hljs-keyword">lock</span>);
+}
+</div></div></code></pre><blockquote>
+<p>dangling reference: 記憶體已經釋放掉還繼續使用</p>
+</blockquote><h4 id="2-kinit2"><a class="anchor hidden-xs" href="#2-kinit2" title="2-kinit2"><span class="octicon octicon-link"></span></a>2. kinit2()</h4><p>在建立完整的page table後，<code>main()</code>來初始化剩下的physical pages。<br>
+此時鎖已經可用了。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">void</span>
+<span class="hljs-title">kinit2</span><span class="hljs-params">(<span class="hljs-keyword">void</span> *vstart, <span class="hljs-keyword">void</span> *vend)</span>
+</span>{
+  <span class="hljs-comment">//將vstart~vend這段memory分割為frames</span>
+  freerange(vstart, vend);
+  <span class="hljs-comment">//設置用鎖</span>
+  kmem.use_lock = <span class="hljs-number">1</span>;
+}
+</div></div></code></pre><hr><h3 id="3-growproc1" style=""><a class="anchor hidden-xs" href="#3-growproc1" title="3-growproc1"><span class="octicon octicon-link"></span></a>3. growproc()</h3><p>allocate一些physical pages，然後將其map到process的address space上。<br>
+成功傳回<code>0</code>，失敗傳回<code>-1</code>。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">int</span>
+<span class="hljs-title">growproc</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> n</span>)
+</span>{
+  <span class="hljs-keyword">uint</span> sz;
+  <span class="hljs-keyword">struct</span> proc *curproc = myproc();
+
+  <span class="hljs-comment">//sz儲存process memory的大小</span>
+  sz = curproc-&gt;sz;
+ 
+  <span class="hljs-comment">//如果n&gt;0，則allocate新的memory</span>
+  <span class="hljs-comment">//如果n&lt;0，則deallocate現有的memory</span>
+  <span class="hljs-comment">//過程中若失敗即回傳-1</span>
+  <span class="hljs-keyword">if</span>(n &gt; <span class="hljs-number">0</span>){
+    <span class="hljs-keyword">if</span>((sz = allocuvm(curproc-&gt;pgdir, sz, sz + n)) == <span class="hljs-number">0</span>)
+      <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+  } <span class="hljs-function"><span class="hljs-keyword">else</span> <span class="hljs-title">if</span>(<span class="hljs-params">n &lt; <span class="hljs-number">0</span></span>)</span>{
+    <span class="hljs-keyword">if</span>((sz = deallocuvm(curproc-&gt;pgdir, sz, sz + n)) == <span class="hljs-number">0</span>)
+      <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+  }
+  <span class="hljs-comment">//更新process的memory size</span>
+  curproc-&gt;sz = sz;
+  <span class="hljs-comment">//將TSS和hardware page table轉至curproc</span>
+  switchuvm(curproc);
+ 
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></div></code></pre><h4 id="proc"><a class="anchor hidden-xs" href="#proc" title="proc"><span class="octicon octicon-link"></span></a>proc</h4><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span></div><div class="code"><span class="hljs-keyword">struct</span> proc {
+uint sz;                     <span class="hljs-comment">// process memory的大小 (bytes)</span>
+<span class="hljs-keyword">pde_t</span>* pgdir;                <span class="hljs-comment">// Page table</span>
+<span class="hljs-keyword">char</span> *kstack;                <span class="hljs-comment">// 此process的kernel stack底部的指針</span>
+<span class="hljs-keyword">enum</span> procstate state;        <span class="hljs-comment">// Process狀態</span>
+<span class="hljs-keyword">int</span> pid;                     <span class="hljs-comment">// Process ID</span>
+<span class="hljs-keyword">struct</span> proc *parent;         <span class="hljs-comment">// 母process的指針</span>
+<span class="hljs-keyword">struct</span> trapframe *tf;        <span class="hljs-comment">// 現在syscall的Trap frame</span>
+<span class="hljs-keyword">struct</span> context *context;     <span class="hljs-comment">// swtch() here to run process</span>
+<span class="hljs-keyword">void</span> *chan;                  <span class="hljs-comment">// 若為非0值, sleeping on chan</span>
+<span class="hljs-keyword">int</span> killed;                  <span class="hljs-comment">// If non-zero, have been killed</span>
+<span class="hljs-keyword">struct</span> file *ofile[NOFILE];  <span class="hljs-comment">// Open files</span>
+<span class="hljs-keyword">struct</span> inode *cwd;           <span class="hljs-comment">// Current directory</span>
+<span class="hljs-keyword">char</span> name[<span class="hljs-number">16</span>];               <span class="hljs-comment">// Process名稱</span>
+};
+</div></div></code></pre><p>process state可表示六種狀態：<br>
+<code>enum procstate { UNUSED, EMBRYO, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };</code></p><h4 id="allocuvm"><a class="anchor hidden-xs" href="#allocuvm" title="allocuvm"><span class="octicon octicon-link"></span></a>allocuvm()</h4><p>allocate新的page tables和physical memory，將process memory size從<code>oldsz</code>提升到<code>newsz</code>。<br>
+成功回傳新的memory size，失敗回傳<code>0</code>。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span>
+<span data-linenumber="31"></span>
+<span data-linenumber="32"></span>
+<span data-linenumber="33"></span>
+<span data-linenumber="34"></span>
+<span data-linenumber="35"></span>
+<span data-linenumber="36"></span>
+<span data-linenumber="37"></span>
+<span data-linenumber="38"></span>
+<span data-linenumber="39"></span>
+<span data-linenumber="40"></span>
+<span data-linenumber="41"></span>
+<span data-linenumber="42"></span>
+<span data-linenumber="43"></span>
+<span data-linenumber="44"></span>
+<span data-linenumber="45"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">int</span>
+<span class="hljs-title">allocuvm</span>(<span class="hljs-params">pde_t *pgdir, <span class="hljs-keyword">uint</span> oldsz, <span class="hljs-keyword">uint</span> newsz</span>)
+</span>{
+  <span class="hljs-keyword">char</span> *mem;
+  <span class="hljs-keyword">uint</span> a;
+
+  <span class="hljs-comment">//檢查newsz是否大於KERNBASE，若是回傳0</span>
+  <span class="hljs-keyword">if</span>(newsz &gt;= KERNBASE)
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+  <span class="hljs-comment">//檢查newsz是否小於oldsz，若是回傳oldsz</span>
+  <span class="hljs-keyword">if</span>(newsz &lt; oldsz)
+    <span class="hljs-keyword">return</span> oldsz;
+
+  <span class="hljs-comment">//將a設為oldsz所屬page上限</span>
+  <span class="hljs-comment">//以a為起始點，allocate新的memory直到滿足newsz</span>
+  a = PGROUNDUP(oldsz);
+  <span class="hljs-keyword">for</span>(; a &lt; newsz; a += PGSIZE){
+    
+    <span class="hljs-comment">//allocate一段memory         </span>
+    mem = kalloc();
+    
+    <span class="hljs-comment">//若kalloc()失敗，則deallocate剛剛嘗試allocate的區段</span>
+    <span class="hljs-comment">//並cprintf報錯橫，傳回0</span>
+    <span class="hljs-keyword">if</span>(mem == <span class="hljs-number">0</span>){
+      cprintf(<span class="hljs-string">"allocuvm out of memory\n"</span>);
+      deallocuvm(pgdir, newsz, oldsz);
+      <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    }
+    
+    <span class="hljs-comment">//將新allocate的memory初始為0</span>
+    memset(mem, <span class="hljs-number">0</span>, PGSIZE);
+    
+    <span class="hljs-comment">//建立page directory中的所有entry</span>
+    <span class="hljs-comment">//最後回傳新的memory size；</span>
+    <span class="hljs-comment">//如果發生out of memory則釋放掉前面allocate的memory</span>
+    <span class="hljs-comment">//回傳0</span>
+    <span class="hljs-keyword">if</span>(mappages(pgdir, (<span class="hljs-keyword">char</span>*)a, PGSIZE, V2P(mem), PTE_W|PTE_U) &lt; <span class="hljs-number">0</span>){
+      cprintf(<span class="hljs-string">"allocuvm out of memory (2)\n"</span>);
+      deallocuvm(pgdir, newsz, oldsz);
+      kfree(mem);
+      <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    }
+  }
+  <span class="hljs-keyword">return</span> newsz;
+}
+</div></div></code></pre><h4 id="deallocuvm"><a class="anchor hidden-xs" href="#deallocuvm" title="deallocuvm"><span class="octicon octicon-link"></span></a>deallocuvm()</h4><p>deallocate現有的user pages，把process的memory size由oldsz降為newsz。<br>
+成功回傳新的memory size。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span></div><div class="code">deallocuvm(pde_t *pgdir, <span class="hljs-keyword">uint</span> oldsz, <span class="hljs-keyword">uint</span> newsz)
+{
+  pte_t *pte;
+  <span class="hljs-keyword">uint</span> a, pa;
+ 
+  <span class="hljs-comment">//檢查newsz是否大於oldsz，若是回傳oldsz</span>
+  <span class="hljs-keyword">if</span>(newsz &gt;= oldsz)
+    <span class="hljs-keyword">return</span> oldsz;
+ 
+  <span class="hljs-comment">// 將a設為newsz所屬page上限</span>
+  <span class="hljs-comment">// 以a為起始點，deallocate現有memory直到滿足newsz</span>
+  a = PGROUNDUP(newsz);
+  <span class="hljs-keyword">for</span>(; a  &lt; oldsz; a += PGSIZE){
+    pte = walkpgdir(pgdir, (<span class="hljs-keyword">char</span>*)a, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">if</span>(!pte)
+      a = PGADDR(PDX(a) + <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>) - PGSIZE;
+    <span class="hljs-function"><span class="hljs-keyword">else</span> <span class="hljs-title">if</span>(<span class="hljs-params">(*pte &amp; PTE_P</span>) !</span>= <span class="hljs-number">0</span>){
+      pa = PTE_ADDR(*pte);
+      <span class="hljs-keyword">if</span>(pa == <span class="hljs-number">0</span>)
+        panic(<span class="hljs-string">"kfree"</span>);
+      <span class="hljs-keyword">char</span> *v = P2V(pa);
+      kfree(v);
+      *pte = <span class="hljs-number">0</span>;
+    }
+  }
+  <span class="hljs-keyword">return</span> newsz;
+}
+</div></div></code></pre><hr><h3 id="4-exec1" style=""><a class="anchor hidden-xs" href="#4-exec1" title="4-exec1"><span class="octicon octicon-link"></span></a>4. exec()</h3><p>exec透過<code>setupkvm\(\)</code>分配了一個空閒的page table，然後透過 <code>allocuvm\(\)</code>為每個ELF分配memory，最後透過<code>loaduvm\(\)</code>把program segment載入memory中。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span>
+<span data-linenumber="31"></span>
+<span data-linenumber="32"></span>
+<span data-linenumber="33"></span>
+<span data-linenumber="34"></span>
+<span data-linenumber="35"></span>
+<span data-linenumber="36"></span>
+<span data-linenumber="37"></span>
+<span data-linenumber="38"></span>
+<span data-linenumber="39"></span>
+<span data-linenumber="40"></span>
+<span data-linenumber="41"></span>
+<span data-linenumber="42"></span>
+<span data-linenumber="43"></span>
+<span data-linenumber="44"></span>
+<span data-linenumber="45"></span>
+<span data-linenumber="46"></span>
+<span data-linenumber="47"></span>
+<span data-linenumber="48"></span>
+<span data-linenumber="49"></span>
+<span data-linenumber="50"></span>
+<span data-linenumber="51"></span>
+<span data-linenumber="52"></span>
+<span data-linenumber="53"></span>
+<span data-linenumber="54"></span>
+<span data-linenumber="55"></span>
+<span data-linenumber="56"></span>
+<span data-linenumber="57"></span>
+<span data-linenumber="58"></span>
+<span data-linenumber="59"></span>
+<span data-linenumber="60"></span>
+<span data-linenumber="61"></span>
+<span data-linenumber="62"></span>
+<span data-linenumber="63"></span>
+<span data-linenumber="64"></span>
+<span data-linenumber="65"></span>
+<span data-linenumber="66"></span>
+<span data-linenumber="67"></span>
+<span data-linenumber="68"></span>
+<span data-linenumber="69"></span>
+<span data-linenumber="70"></span>
+<span data-linenumber="71"></span>
+<span data-linenumber="72"></span>
+<span data-linenumber="73"></span>
+<span data-linenumber="74"></span>
+<span data-linenumber="75"></span>
+<span data-linenumber="76"></span>
+<span data-linenumber="77"></span>
+<span data-linenumber="78"></span>
+<span data-linenumber="79"></span>
+<span data-linenumber="80"></span>
+<span data-linenumber="81"></span>
+<span data-linenumber="82"></span>
+<span data-linenumber="83"></span>
+<span data-linenumber="84"></span>
+<span data-linenumber="85"></span>
+<span data-linenumber="86"></span>
+<span data-linenumber="87"></span>
+<span data-linenumber="88"></span>
+<span data-linenumber="89"></span>
+<span data-linenumber="90"></span>
+<span data-linenumber="91"></span>
+<span data-linenumber="92"></span>
+<span data-linenumber="93"></span>
+<span data-linenumber="94"></span>
+<span data-linenumber="95"></span>
+<span data-linenumber="96"></span>
+<span data-linenumber="97"></span>
+<span data-linenumber="98"></span>
+<span data-linenumber="99"></span>
+<span data-linenumber="100"></span>
+<span data-linenumber="101"></span>
+<span data-linenumber="102"></span>
+<span data-linenumber="103"></span>
+<span data-linenumber="104"></span>
+<span data-linenumber="105"></span>
+<span data-linenumber="106"></span>
+<span data-linenumber="107"></span>
+<span data-linenumber="108"></span>
+<span data-linenumber="109"></span>
+<span data-linenumber="110"></span>
+<span data-linenumber="111"></span>
+<span data-linenumber="112"></span>
+<span data-linenumber="113"></span>
+<span data-linenumber="114"></span>
+<span data-linenumber="115"></span>
+<span data-linenumber="116"></span>
+<span data-linenumber="117"></span>
+<span data-linenumber="118"></span>
+<span data-linenumber="119"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">int</span>
+<span class="hljs-title">exec</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *path, <span class="hljs-keyword">char</span> **argv)</span>
+</span>{
+  <span class="hljs-keyword">char</span> *s, *last;
+  <span class="hljs-keyword">int</span> i, off;
+  uint argc, sz, sp, ustack[<span class="hljs-number">3</span>+MAXARG+<span class="hljs-number">1</span>];
+  <span class="hljs-keyword">struct</span> elfhdr elf;
+  <span class="hljs-keyword">struct</span> inode *ip;
+  <span class="hljs-keyword">struct</span> proghdr ph;
+  <span class="hljs-keyword">pde_t</span> *pgdir, *oldpgdir;
+  <span class="hljs-keyword">struct</span> proc *curproc = myproc();
+
+  begin_op();
+
+  <span class="hljs-keyword">if</span>((ip = namei(path)) == <span class="hljs-number">0</span>){
+    end_op();
+    cprintf(<span class="hljs-string">"exec: fail\n"</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+  }
+  ilock(ip);
+  pgdir = <span class="hljs-number">0</span>;
+
+  <span class="hljs-comment">// 檢查ELF header</span>
+  <span class="hljs-keyword">if</span>(readi(ip, (<span class="hljs-keyword">char</span>*)&amp;elf, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(elf)) != <span class="hljs-keyword">sizeof</span>(elf))
+    <span class="hljs-keyword">goto</span> bad;
+  <span class="hljs-keyword">if</span>(elf.magic != ELF_MAGIC)
+    <span class="hljs-keyword">goto</span> bad;
+
+  <span class="hljs-keyword">if</span>((pgdir = setupkvm()) == <span class="hljs-number">0</span>)
+    <span class="hljs-keyword">goto</span> bad;
+
+  <span class="hljs-comment">// 將program載入memory.</span>
+  sz = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">for</span>(i=<span class="hljs-number">0</span>, off=elf.phoff; i&lt;elf.phnum; i++, off+=<span class="hljs-keyword">sizeof</span>(ph)){
+    <span class="hljs-keyword">if</span>(readi(ip, (<span class="hljs-keyword">char</span>*)&amp;ph, off, <span class="hljs-keyword">sizeof</span>(ph)) != <span class="hljs-keyword">sizeof</span>(ph))
+      <span class="hljs-keyword">goto</span> bad;
+    <span class="hljs-keyword">if</span>(ph.type != ELF_PROG_LOAD)
+      <span class="hljs-keyword">continue</span>;
+    <span class="hljs-keyword">if</span>(ph.memsz &lt; ph.filesz)
+      <span class="hljs-keyword">goto</span> bad;
+    <span class="hljs-keyword">if</span>(ph.vaddr + ph.memsz &lt; ph.vaddr)
+      <span class="hljs-keyword">goto</span> bad;
+    <span class="hljs-comment">// 透過allocuvm為user process分配memory和建立page table</span>
+    <span class="hljs-comment">// 如果失敗則報錯</span>
+    <span class="hljs-keyword">if</span>((sz = allocuvm(pgdir, sz, ph.vaddr + ph.memsz)) == <span class="hljs-number">0</span>)
+      <span class="hljs-keyword">goto</span> bad;
+    <span class="hljs-keyword">if</span>(ph.vaddr % PGSIZE != <span class="hljs-number">0</span>)
+      <span class="hljs-keyword">goto</span> bad;
+    <span class="hljs-comment">//透過loaduvm將program segment載入到memory</span>
+    <span class="hljs-comment">//如果失敗則報錯</span>
+    <span class="hljs-keyword">if</span>(loaduvm(pgdir, (<span class="hljs-keyword">char</span>*)ph.vaddr, ip, ph.off, ph.filesz) &lt; <span class="hljs-number">0</span>)
+      <span class="hljs-keyword">goto</span> bad;
+  }
+  iunlockput(ip);
+  end_op();
+  ip = <span class="hljs-number">0</span>;
+
+  <span class="hljs-comment">// 在此page上限後再allocate 2 pages</span>
+  <span class="hljs-comment">// 將第一個設為無法訪問，這樣當程式試圖使用超過一個page時的stack時就會報錯</span>
+  <span class="hljs-comment">// 最後將第二個做為user stack</span>
+  sz = PGROUNDUP(sz);
+  <span class="hljs-keyword">if</span>((sz = allocuvm(pgdir, sz, sz + <span class="hljs-number">2</span>*PGSIZE)) == <span class="hljs-number">0</span>)
+    <span class="hljs-keyword">goto</span> bad;
+  clearpteu(pgdir, (<span class="hljs-keyword">char</span>*)(sz - <span class="hljs-number">2</span>*PGSIZE));
+  sp = sz;
+
+  <span class="hljs-comment">// 輸入argument strings</span>
+  <span class="hljs-comment">// 並設置好ustack剩下的stack空間</span>
+  <span class="hljs-keyword">for</span>(argc = <span class="hljs-number">0</span>; argv[argc]; argc++) {
+    <span class="hljs-keyword">if</span>(argc &gt;= MAXARG)
+      <span class="hljs-keyword">goto</span> bad;
+    sp = (sp - (<span class="hljs-built_in">strlen</span>(argv[argc]) + <span class="hljs-number">1</span>)) &amp; ~<span class="hljs-number">3</span>;
+    <span class="hljs-keyword">if</span>(copyout(pgdir, sp, argv[argc], <span class="hljs-built_in">strlen</span>(argv[argc]) + <span class="hljs-number">1</span>) &lt; <span class="hljs-number">0</span>)
+      <span class="hljs-keyword">goto</span> bad;
+    ustack[<span class="hljs-number">3</span>+argc] = sp;
+  }
+  ustack[<span class="hljs-number">3</span>+argc] = <span class="hljs-number">0</span>;
+
+  <span class="hljs-comment">//將ustack[0]設為fake return PC</span>
+  <span class="hljs-comment">//將ustack[1]設為argument counter</span>
+  <span class="hljs-comment">//將ustack[2]設為argument strings指針</span>
+  ustack[<span class="hljs-number">0</span>] = <span class="hljs-number">0xffffffff</span>;
+  ustack[<span class="hljs-number">1</span>] = argc;
+  ustack[<span class="hljs-number">2</span>] = sp - (argc+<span class="hljs-number">1</span>)*<span class="hljs-number">4</span>;
+
+  sp -= (<span class="hljs-number">3</span>+argc+<span class="hljs-number">1</span>) * <span class="hljs-number">4</span>;
+ 
+  <span class="hljs-comment">//將ustack複製進pgdir中</span>
+  <span class="hljs-keyword">if</span>(copyout(pgdir, sp, ustack, (<span class="hljs-number">3</span>+argc+<span class="hljs-number">1</span>)*<span class="hljs-number">4</span>) &lt; <span class="hljs-number">0</span>)
+    <span class="hljs-keyword">goto</span> bad;
+
+  <span class="hljs-comment">// 儲存程式名稱(debugging時可用)</span>
+  <span class="hljs-keyword">for</span>(last=s=path; *s; s++)
+    <span class="hljs-keyword">if</span>(*s == <span class="hljs-string">'/'</span>)
+      last = s+<span class="hljs-number">1</span>;
+  safestrcpy(curproc-&gt;name, last, <span class="hljs-keyword">sizeof</span>(curproc-&gt;name));
+
+  <span class="hljs-comment">// Commit to the user image.</span>
+  oldpgdir = curproc-&gt;pgdir;
+  curproc-&gt;pgdir = pgdir;
+  curproc-&gt;sz = sz;
+  curproc-&gt;tf-&gt;eip = elf.entry;  <span class="hljs-comment">// main</span>
+  curproc-&gt;tf-&gt;esp = sp;
+  switchuvm(curproc);
+  freevm(oldpgdir);
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+ <span class="hljs-comment">//只要前面有任何錯誤都會跳到這</span>
+ <span class="hljs-comment">//釋放memory</span>
+ <span class="hljs-comment">//最後回傳-1</span>
+ bad:
+  <span class="hljs-keyword">if</span>(pgdir)
+    freevm(pgdir);
+  <span class="hljs-keyword">if</span>(ip){
+    iunlockput(ip);
+    end_op();
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+}
+</div></div></code></pre><h4 id="setupkvm"><a class="anchor hidden-xs" href="#setupkvm" title="setupkvm"><span class="octicon octicon-link"></span></a>setupkvm</h4><p>可參考<a href="https://hackmd.io/s/ByFFWcy6b#1-setupkvm" target="_blank">第一段</a>。</p><h4 id="allocuvm1"><a class="anchor hidden-xs" href="#allocuvm1" title="allocuvm1"><span class="octicon octicon-link"></span></a>allocuvm</h4><p>可參考<a href="https://hackmd.io/s/ByFFWcy6b#allocuvm" target="_blank">第三段</a>。</p><h4 id="loaduvm"><a class="anchor hidden-xs" href="#loaduvm" title="loaduvm"><span class="octicon octicon-link"></span></a>loaduvm</h4><p>將program segment載入<code>pgdir</code>中。<br>
+成功回傳<code>0</code>，失敗回傳<code>-1</code>。</p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">int</span>
+<span class="hljs-title">loaduvm</span>(<span class="hljs-params">pde_t *pgdir, <span class="hljs-keyword">char</span> *addr, <span class="hljs-keyword">struct</span> inode *ip, <span class="hljs-keyword">uint</span> offset, <span class="hljs-keyword">uint</span> sz</span>)
+</span>{
+  <span class="hljs-keyword">uint</span> i, pa, n;
+  pte_t *pte;
+  
+  <span class="hljs-comment">//檢查addr是否有做page aligned</span>
+  <span class="hljs-comment">//若沒有則報錯</span>
+  <span class="hljs-keyword">if</span>((<span class="hljs-keyword">uint</span>) addr % PGSIZE != <span class="hljs-number">0</span>)
+    panic(<span class="hljs-string">"loaduvm: addr must be page aligned"</span>);
+ 
+  <span class="hljs-comment">//遍歷整個page中的pte</span>
+  <span class="hljs-comment">//透過walkpgdir來找到寫入ELF段的physical address</span>
+  <span class="hljs-comment">//然後透過readi来將program segment從文件中讀出。</span>
+  <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; sz; i += PGSIZE){
+    <span class="hljs-keyword">if</span>((pte = walkpgdir(pgdir, addr+i, <span class="hljs-number">0</span>)) == <span class="hljs-number">0</span>)
+      panic(<span class="hljs-string">"loaduvm: address should exist"</span>);
+    pa = PTE_ADDR(*pte);
+    <span class="hljs-keyword">if</span>(sz - i &lt; PGSIZE)
+      n = sz - i;
+    <span class="hljs-keyword">else</span>
+      n = PGSIZE;
+    <span class="hljs-keyword">if</span>(readi(ip, P2V(pa), offset+i, n) != n)
+      <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></div></code></pre><h4 id="copyout"><a class="anchor hidden-xs" href="#copyout" title="copyout"><span class="octicon octicon-link"></span></a>copyout</h4><p>將長度<code>len</code>bytes的data從<code>p</code>複製到page table <code>pgdi</code>中的<code>user address</code><br>
+成功回傳<code>0</code>，失敗回傳<code>-1</code></p><pre><code class="clike hljs"><div class="wrapper"><div class="gutter linenumber"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span>
+<span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span>
+<span data-linenumber="31"></span></div><div class="code"><span class="hljs-function"><span class="hljs-keyword">int</span>
+<span class="hljs-title">copyout</span>(<span class="hljs-params">pde_t *pgdir, <span class="hljs-keyword">uint</span> va, <span class="hljs-keyword">void</span> *p, <span class="hljs-keyword">uint</span> len</span>)
+</span>{
+  <span class="hljs-keyword">char</span> *buf, *pa0;
+  <span class="hljs-keyword">uint</span> n, va0;
+
+  buf = (<span class="hljs-keyword">char</span>*)p;
+ 
+  <span class="hljs-comment">//複製長度len的資料</span>
+  <span class="hljs-keyword">while</span>(len &gt; <span class="hljs-number">0</span>){
+    <span class="hljs-comment">//va0為va所屬page的下限</span>
+    va0 = (<span class="hljs-keyword">uint</span>)PGROUNDDOWN(va);
+    
+    <span class="hljs-comment">//確保pgdir為PTE_U pages</span>
+    pa0 = uva2ka(pgdir, (<span class="hljs-keyword">char</span>*)va0);
+    <span class="hljs-keyword">if</span>(pa0 == <span class="hljs-number">0</span>)
+      <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    n = PGSIZE - (va - va0);
+    <span class="hljs-keyword">if</span>(n &gt; len)
+      n = len;
+    
+    <span class="hljs-comment">//移動data</span>
+    memmove(pa0 + (va - va0), buf, n);
+                 
+    <span class="hljs-comment">//更新變數</span>
+    len -= n;
+    buf += n;
+    va = va0 + PGSIZE;
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></div></code></pre><div class="resize-sensor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                <div class="toc"><ul class="nav"><li class=""><a href="#introduction-page-tableschapter-2">Introduction: Page Tables(Chapter 2)</a><ul class="nav"><li><a href="#一、運作原理">一、運作原理</a><ul class="nav"><li><a href="#1-前言">1. 前言</a></li><li><a href="#2-背景知識">2. 背景知識</a></li><li><a href="#3-實際運作過程">3. 實際運作過程</a></li></ul></li><li><a href="#二、程式流程圖">二、程式流程圖</a><ul class="nav"><li><a href="#1-kvmalloc">1. kvmalloc()</a></li><li><a href="#2-kinit">2. kinit()</a></li><li><a href="#3-growproc">3. growproc()</a></li><li><a href="#4-exec">4. exec()</a></li></ul></li><li><a href="#三、程式碼">三、程式碼</a><ul class="nav"><li><a href="#0-preprocessor-definitions">0. Preprocessor Definitions</a></li><li><a href="#1-kvmalloc1">1. kvmalloc()</a></li><li><a href="#2-kinit1">2. kinit()</a></li><li><a href="#3-growproc1">3. growproc()</a></li><li><a href="#4-exec1">4. exec()</a></li></ul></li></ul></li></ul></div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+            </ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;"  >
+        <div class="toc"><ul class="nav"><li class=""><a href="#introduction-page-tableschapter-2">Introduction: Page Tables(Chapter 2)</a><ul class="nav"><li><a href="#一、運作原理">一、運作原理</a><ul class="nav"><li><a href="#1-前言">1. 前言</a></li><li><a href="#2-背景知識">2. 背景知識</a></li><li><a href="#3-實際運作過程">3. 實際運作過程</a></li></ul></li><li><a href="#二、程式流程圖">二、程式流程圖</a><ul class="nav"><li><a href="#1-kvmalloc">1. kvmalloc()</a></li><li><a href="#2-kinit">2. kinit()</a></li><li><a href="#3-growproc">3. growproc()</a></li><li><a href="#4-exec">4. exec()</a></li></ul></li><li><a href="#三、程式碼">三、程式碼</a><ul class="nav"><li><a href="#0-preprocessor-definitions">0. Preprocessor Definitions</a></li><li><a href="#1-kvmalloc1">1. kvmalloc()</a></li><li><a href="#2-kinit1">2. kinit()</a></li><li><a href="#3-growproc1">3. growproc()</a></li><li><a href="#4-exec1">4. exec()</a></li></ul></li></ul></li></ul></div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
+    <script>
+        var markdown = $(".markdown-body");
+        //smooth all hash trigger scrolling
+        function smoothHashScroll() {
+            var hashElements = $("a[href^='#']").toArray();
+            for (var i = 0; i < hashElements.length; i++) {
+                var element = hashElements[i];
+                var $element = $(element);
+                var hash = element.hash;
+                if (hash) {
+                    $element.on('click', function (e) {
+                        // store hash
+                        var hash = this.hash;
+                        if ($(hash).length <= 0) return;
+                        // prevent default anchor click behavior
+                        e.preventDefault();
+                        // animate
+                        $('body, html').stop(true, true).animate({
+                            scrollTop: $(hash).offset().top
+                        }, 100, "linear", function () {
+                            // when done, add hash to url
+                            // (default click behaviour)
+                            window.location.hash = hash;
+                        });
+                    });
+                }
+            }
+        }
+
+        smoothHashScroll();
+        var toc = $('.ui-toc');
+        var tocAffix = $('.ui-affix-toc');
+        var tocDropdown = $('.ui-toc-dropdown');
+        //toc
+        tocDropdown.click(function (e) {
+            e.stopPropagation();
+        });
+
+        var enoughForAffixToc = true;
+
+        function generateScrollspy() {
+            $(document.body).scrollspy({
+                target: ''
+            });
+            $(document.body).scrollspy('refresh');
+            if (enoughForAffixToc) {
+                toc.hide();
+                tocAffix.show();
+            } else {
+                tocAffix.hide();
+                toc.show();
+            }
+            $(document.body).scroll();
+        }
+
+        function windowResize() {
+            //toc right
+            var paddingRight = parseFloat(markdown.css('padding-right'));
+            var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+            toc.css('right', right + 'px');
+            //affix toc left
+            var newbool;
+            var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+            //for ipad or wider device
+            if (rightMargin >= 133) {
+                newbool = true;
+                var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+                var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+                tocAffix.css('left', left + 'px');
+            } else {
+                newbool = false;
+            }
+            if (newbool != enoughForAffixToc) {
+                enoughForAffixToc = newbool;
+                generateScrollspy();
+            }
+        }
+        $(window).resize(function () {
+            windowResize();
+        });
+        $(document).ready(function () {
+            windowResize();
+            generateScrollspy();
+        });
+
+        //remove hash
+        function removeHash() {
+            window.location.hash = '';
+        }
+
+        var backtotop = $('.back-to-top');
+        var gotobottom = $('.go-to-bottom');
+
+        backtotop.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToTop)
+                scrollToTop();
+            removeHash();
+        });
+        gotobottom.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToBottom)
+                scrollToBottom();
+            removeHash();
+        });
+
+        var toggle = $('.expand-toggle');
+        var tocExpand = false;
+
+        checkExpandToggle();
+        toggle.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tocExpand = !tocExpand;
+            checkExpandToggle();
+        })
+
+        function checkExpandToggle () {
+            var toc = $('.ui-toc-dropdown .toc');
+            var toggle = $('.expand-toggle');
+            if (!tocExpand) {
+                toc.removeClass('expand');
+                toggle.text('Expand all');
+            } else {
+                toc.addClass('expand');
+                toggle.text('Collapse all');
+            }
+        }
+
+        function scrollToTop() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: 0
+            }, 100, "linear");
+        }
+
+        function scrollToBottom() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: $(document.body)[0].scrollHeight
+            }, 100, "linear");
+        }
+    </script>
+</body>
+
+</html>
