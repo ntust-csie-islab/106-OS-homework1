@@ -1,0 +1,50 @@
+Chapter 2 
+
+
+The use of double kernel mapping in multiple address spaces is essential and the continuity in mapping the same amount of memory in an address space more than one times to create and form the "unmapped" page. Furthermore, to protect the stack of the user. 
+ This page table program is to allow the system of xv6 to reapply and reuse the address space of different processes into a single physical memory space. Moreover, it is indeed made to perform a single protection at the same amount of time.
+The ability of kernel and users to control the virtual address is given by the Operating system, thus the programming of the time page hardware connect these two kinds of physical address and Random-Access Memory.
+The existance of the PTE is essentials, therefore, it is noted that determination of the existance of PTE must be done first, then going back to the PTE and then eventually it does not content any kalloc program in order to create a brand new page and back to zero, finally it is set back to the PTE program.
+
+CPU Page Table Entry in addition to PPN also stored flags, used to explain the corresponding virtual address usage rights, 
+It is considered 3 important main PTE's to consider about, the first one PTE_W, is to control the writing of this page. PTE_P, meaning is PTE really in the Page Table, if it is not, then it is not allowed to use.  PTE_U is to control user process can or cannot be used, if it can't be used then only the kernel is available to be used.
+
+The paged hardware
+The initial step, 10bits that is received,find the corresponding process in the Page Table and then continue utilizing the 10bits that find the corresponding entity page
+ The intermediate step (with the PPN), 20bits is calculated from the addition of both 10bits,  convert the virtual address to the index page to find a PTE and replace the top 20 bits of PTE 
+And then the original virtual address last 12bits after the completion 
+if the front of the 10bits already exist it is just down 10bits from the page index a PTE.
+It's a wrap!
+
+sbreak;
+A process that requires more memory at run time can call sbreak (n) to increase its data memory n bytes (n> 0 or n <0);
+if (n> 0) growproc allocates one or more physical pages and maps them to the top of the process address space and vice versa if (n <0) growproc will unmap one or more pages from the process's address space and release the corresponding physical page.
+execution = 
+exec; 
+ Process to open the binary conversion name can read the ELF file
+exec is allocated to a new page table via onoffkvm, and then loaduvm loads each segment into memory, and allocuvm is used to allocate memory for each single ELF.
+The more detailed is:allocuvm Checks if the requested virtual address is lower than kernbase
+loaduvm Use walkpgdir to find the physical address of the allocated memory for each page that writes the ELF segment and read it.
+During the preparation of a new memory image, if exec detects an invalid block error, return to minus 1. If the old image disappears, the system call can not return-1.
+The exec most common mistake is when the image is formed. It is formed, then the exec can install the new image in order to return to zero, but before that exec has to released the old image first.
+
+
+
+Address space
+kvmalloc
+
+kvmalloc () {
+pgdir = setupkvmalloc (); 
+
+onoffkvm ();
+}
+Initial = KERNELBASE originates from software you installed on your system. 
+Use KERNELBASE to create and switch to the top of the page table to run the double kernel process address space plan required mapping.
+User memory from zero to compile the page number.
+Intermediate = In addition, use mappages to install the kernel translation required to convert a virtual address range to the corresponding physical address range of the page table.
+Advance =  Use walkpgdir to search for the virtual address PTE
+walkpgdir (pde_t * pgdir, const void * va, int alloc)
+walkpgdir In the search for virtual address of the PTE, there are simulated to x86 paging hardware action. walkpgdir uses the upper ten bits of the virtual address to find the page directory entry. If it does not exist, the page table page is not yet assigned; if the alloc reference is set , then walkpgdir will allocate it and place its physical address in the page directory. Then initialize the PTE to hold the associated physical page number, the required permissions (PTE_W and / or PTE_U), and PTE_P to mark the PTE as valid as possible. Finally use the next 10 bits of the virtual address to find the PTE in the page table page address.
+
+
+
